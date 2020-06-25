@@ -1,0 +1,8 @@
+<p *ngIf='ssoToken' style="text-align: center;padding-top: 10px;">Login successfully</p>
+<div *ngIf='ssoToken'>
+    <h5>Email: {{userDetails.email}}</h5>
+    <h5>Role: {{userDetails.role}}</h5>
+    <h5>Global Session ID: {{userDetails.globalSessionID}}</h5>
+    <!-- <h5>AccessToken: {{userDetails.token}}</h5>
+    <h5>RefreshToken: {{userDetails.refreshToken}}</h5> -->
+</div>
