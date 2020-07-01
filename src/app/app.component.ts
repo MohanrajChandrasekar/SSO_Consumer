@@ -10,5 +10,8 @@ export class AppComponent {
   title = 'sso';
   constructor(private service: HttpServicesService) {
     console.log('app loads..');
+    // localStorage.removeItem('sessionUser');
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('refreshToken');
   }
 }
