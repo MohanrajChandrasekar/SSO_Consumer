@@ -39,4 +39,8 @@ export class HttpServicesService {
   getSSO_Token(redirectURL, sessionUser): Observable<any> {
     return this.http.get(this.apiURL + 'simplesso/login?serviceURL=' + redirectURL + '&sessionUser=' + sessionUser).pipe(tap());
   }
+
+  logout(ssoToken): Observable<any> {
+    return this.http.get(this.apiURL + 'simplesso/logout?ssoToken=' + ssoToken).pipe(tap());
+  }
 }

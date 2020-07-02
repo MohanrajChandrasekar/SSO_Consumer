@@ -21,7 +21,6 @@ export class DashboardComponent implements OnInit {
     private httpService: HttpServicesService) { }
 
   ngOnInit(): void {
-    debugger
     console.log(this.activateRoute.snapshot.queryParams);
     if (this.activateRoute.snapshot.queryParams.ssoToken) {
       this.ssoToken = this.activateRoute.snapshot.queryParams.ssoToken;
@@ -29,8 +28,8 @@ export class DashboardComponent implements OnInit {
     } else {
       // this.document.location.href = environment.apiURL + 'simplesso/login?serviceURL=' + redirestURL;
 
-      console.log(JSON.stringify(localStorage.getItem('sessionUser')));
-      const sessionUser = localStorage.getItem('sessionUser');
+      console.log(JSON.stringify(localStorage.getItem('globalSessionID')));
+      const sessionUser = localStorage.getItem('globalSessionID');
       if (sessionUser === null) {
         this.route.navigateByUrl('/login');
       } else {
@@ -46,12 +45,24 @@ export class DashboardComponent implements OnInit {
   }
 
   verifySSO() {
+    debugger
     this.httpService.verifySSO_Token(this.ssoToken).subscribe(res => {
       console.log(res);
       if (res.status === 200) {
         this.userDetails = res.response.payLoad;
         localStorage.setItem('token', res.response.token);
         localStorage.setItem('refreshToken', res.response.refreshToken);
+      }
+    });
+  }
+
+  logout() {
+    this.httpService.logout(this.ssoToken).subscribe(res => {
+      console.log(res);
+      if (res.status === 200) {
+        localStorage.removeItem('globalSessionID');
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
       }
     });
   }

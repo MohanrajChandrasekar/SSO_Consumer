@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit {
   isVerifiedURL = false;
 
   constructor(private fb: FormBuilder,
-    private router: Router,
-    private httpService: HttpServicesService) {
+              private router: Router,
+              private httpService: HttpServicesService) {
     this.loginForm = this.fb.group({
       loginId: new FormControl('', Validators.required),
       password: new FormControl('', Validators.compose([
@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.httpService.preLogin(redirectURL).subscribe(res => {
-      console.log(res);
       if (res.status === 200) {
         this.isVerifiedURL = true;
       } else {
@@ -37,18 +36,15 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin() {
-    const obj = Object.assign(this.loginForm.value);
-    console.log(obj);
     const object = {
       email: this.loginForm.value.loginId,
       password: this.loginForm.value.password,
       serviceURL: this.isVerifiedURL ? redirectURL : null
     };
     this.httpService.doLogin(object).subscribe(res => {
-      console.log(res);
       if (res.status === 200) {
         this.router.navigate(['/dashboard'], { queryParams: { ssoToken: res.ssoToken } });
-        localStorage.setItem('sessionUser', res.sessionUser);
+        localStorage.setItem('globalSessionID', res.sessionUser);
       }
     });
   }
